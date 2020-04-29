@@ -4,13 +4,8 @@ namespace StaticWeb;
 
 class Controller {
     public function run() : void {
-        add_filter( 'wp_insert_post_data',
-                    [ 'StaticWeb\Controller', 'insertPostData' ] );
-    }
-
-    public static function insertPostData( array $data, array $postarr) : array {
-        
-        return $data;
+        add_action( 'save_post',
+                    [ 'StaticWeb\Controller', 'savePost' ] );
     }
 
     public static function activate_for_single_site() : void {
@@ -61,17 +56,14 @@ class Controller {
     public static function deactivate( bool $network_wide = null ) : void {
     }
 
-    public static function insertPostData( array $data, array $postarr) : array {
+    public static function savePost( int $post_id ) : void {
         global $wpdb;
 
-        $post_id = $postarr['ID'];
         $post_link = wp_make_link_relative(get_permalink($post_id));
 
         $table_name = $wpdb->prefix . 'staticweb_permalinks';
         $query_string = "INSERT INTO $table_name (post_id, relative_permalink, updated) VALUES (%s, %s, NOW()) ON DUPLICATE KEY UPDATE post_id=%s, updated=NOW()";
         $query = $wpdb->prepare($query_string, $post_id, $post_link, $post_id);
         $wpdb->query($query);
-
-        return $data;
     }
 }
