@@ -21,8 +21,8 @@ class Controller {
         $charset_collate = $wpdb->get_charset_collate();
 
         $sql = "CREATE TABLE $table_name (
-            id bigint(20) NOT NULL AUTO_INCREMENT,
-            post_id bigint(20) NOT NULL,
+            id BIGINT(20) NOT NULL AUTO_INCREMENT,
+            post_id BIGINT(20) NOT NULL,
             relative_permalink VARCHAR(255) NOT NULL UNIQUE,
             updated DATETIME NOT NULL,
             deployed DATETIME NULL,
