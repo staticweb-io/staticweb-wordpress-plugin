@@ -80,7 +80,7 @@ class Deployer {
         return $result;
     }
 
-    public static function update_deployed( int $id, string $updated) {
+    public static function update_deployed( int $id, string $updated) : void {
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'staticweb_permalinks';
