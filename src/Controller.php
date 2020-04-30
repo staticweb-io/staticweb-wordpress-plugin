@@ -6,6 +6,10 @@ class Controller {
     public function run() : void {
         add_action( 'save_post',
                     [ 'StaticWeb\Controller', 'savePost' ] );
+
+        add_action( 'wp2static_deploy',
+                    [ 'StaticWeb\Controller', 'deploy' ],
+                    100, 1 );
     }
 
     public static function activate_for_single_site() : void {
@@ -54,6 +58,12 @@ class Controller {
     }
 
     public static function deactivate( bool $network_wide = null ) : void {
+    }
+
+    public function deploy( string $processed_site_path ) : void {
+        \WP2Static\WsLog::l( 'StaticWeb Addon deploying' );
+
+        Deployer::deploy( $processed_site_path );
     }
 
     public static function savePost( int $post_id ) : void {
