@@ -2,12 +2,11 @@
 
 namespace StaticWeb;
 
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
 use Aws\S3\S3Client;
-use Aws\CloudFront\CloudFrontClient;
-use Aws\Exception\AwsException;
-use Aws\Credentials\Credentials;
+use WP2Static\CoreOptions;
+use WP2StaticS3\Controller;
+
+define("MD5_EMPTY_STRING", "d41d8cd98f00b204e9800998ecf8427e");
 
 class Deployer {
 
@@ -50,6 +49,7 @@ class Deployer {
         // instantiate S3 client
         $s3 = new \Aws\S3\S3Client( $client_options );
         $bucket = \WP2StaticS3\Controller::getValue( 's3Bucket' );
+        $post_processed_dir = \WP2Static\ProcessedSite::getPath();
 
         $table_name = $wpdb->prefix . 'staticweb_permalinks';
         $query = "SELECT * FROM $table_name WHERE deployed IS NULL OR deployed <= updated";
@@ -57,14 +57,35 @@ class Deployer {
 
         foreach ( $rows as $row ) {
             $post_id = $row->post_id;
+            $post = get_post($post_id);
             $path = $row->relative_permalink;
             $canonical_path = wp_make_link_relative(get_permalink($post_id));
-            if ($path !== $canonical_path) {
 
+            if ( is_null( $post ) ) {
+                self::delete_row( $row->id );
+            } else if ( 'publish' === $post->post_status ) {
+                if ($path !== $canonical_path) {
+                    if ( mb_substr( $path, -1 ) === '/' ) {
+                        $path = $path . "index.html";
+                    }
+                    $file_path = $post_processed_dir . $path;
+                } else {
+                    self::update_deployed( $row->id, $row->updated );
+                }
             } else {
                 self::update_deployed( $row->id, $row->updated );
             }
         }
+
+    }
+
+    public static function delete_row ( int $id ) : void {
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . 'staticweb_permalinks';
+        $query_string = "DELETE FROM $table_name WHERE id=%s";
+        $query = $wpdb->prepare($query_string, $id);
+        $wpdb->query($query);
     }
 
     public static function put_redirect( \Aws\S3\S3Client $s3, string $bucket,
@@ -80,12 +101,12 @@ class Deployer {
         return $result;
     }
 
-    public static function update_deployed( int $id, string $updated) : void {
+    public static function update_deployed( int $id, string $updated ) : void {
         global $wpdb;
 
         $table_name = $wpdb->prefix . 'staticweb_permalinks';
         $query_string = "UPDATE $table_name SET deployed = NOW() WHERE id=%s AND updated=%s";
-        $query = $wpdb->prepare($query_string, $id, $updated );
+        $query = $wpdb->prepare($query_string, $id, $updated);
         $wpdb->query($query);
     }
 }
