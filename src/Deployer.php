@@ -4,6 +4,7 @@ namespace StaticWeb;
 
 use Aws\S3\S3Client;
 use WP2Static\CoreOptions;
+use WP2Static\ProcessedSite;
 use WP2StaticS3\Controller;
 
 define("MD5_EMPTY_STRING", "d41d8cd98f00b204e9800998ecf8427e");
@@ -109,4 +110,5 @@ class Deployer {
         $query = $wpdb->prepare($query_string, $id, $updated);
         $wpdb->query($query);
     }
+
 }
