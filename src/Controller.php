@@ -4,8 +4,8 @@ namespace StaticWeb;
 
 class Controller {
     public function run() : void {
-        add_action( 'save_post',
-                    [ 'StaticWeb\Controller', 'savePost' ] );
+        add_action( 'pre_post_update',
+                    [ 'StaticWeb\Controller', 'pre_post_update' ] );
 
         add_action( 'wp2static_deploy',
                     [ 'StaticWeb\Controller', 'deploy' ],
@@ -66,7 +66,7 @@ class Controller {
         Deployer::deploy( $processed_site_path );
     }
 
-    public static function savePost( int $post_id ) : void {
+    public static function pre_post_update( int $post_id ) : void {
         global $wpdb;
 
         $post_link = wp_make_link_relative(get_permalink($post_id));
