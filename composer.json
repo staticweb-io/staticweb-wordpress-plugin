@@ -6,8 +6,9 @@
     "repositories": [
     ],
     "require": {
-        "php": ">=7.2",
-        "aws/aws-sdk-php": "^3.133"
+      "php": ">=7.2",
+      "aws/aws-sdk-php": "3.134.6",
+      "guzzlehttp/guzzle": "6.5.2"
     },
     "autoload": {
         "psr-4": {
