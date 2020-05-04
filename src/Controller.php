@@ -72,6 +72,11 @@ class Controller {
         $post_link = wp_make_link_relative(get_permalink($post_id));
 
         $table_name = $wpdb->prefix . 'staticweb_permalinks';
+        $query_string = "UPDATE $table_name SET updated=NOW() WHERE post_id=%s AND updated<deployed";
+        $query = $wpdb->prepare($query_string, $post_id);
+        $wpdb->query($query);
+
+        $table_name = $wpdb->prefix . 'staticweb_permalinks';
         $query_string = "INSERT INTO $table_name (post_id, relative_permalink, updated) VALUES (%s, %s, NOW()) ON DUPLICATE KEY UPDATE post_id=%s, updated=NOW()";
         $query = $wpdb->prepare($query_string, $post_id, $post_link, $post_id);
         $wpdb->query($query);
