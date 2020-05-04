@@ -31,6 +31,11 @@ class HTTPClient {
             null
         );
 
+        // Setting CURLOPT_FOLLOWLOCATION wasn't enough in testing,
+        // so we also set CURLOPT_MAXREDIRS.
+        curl_setopt( $this->ch, CURLOPT_FOLLOWLOCATION, false );
+        curl_setopt( $this->ch, CURLOPT_MAXREDIRS, 0 );
+
         // TODO: apply this filter when option is saved
         if ( $port_override ) {
             curl_setopt( $this->ch, CURLOPT_PORT, $port_override );
