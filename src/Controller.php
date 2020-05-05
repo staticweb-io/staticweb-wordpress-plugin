@@ -4,6 +4,10 @@ namespace StaticWeb;
 
 class Controller {
     public function run() : void {
+        add_action( 'admin_bar_menu',
+                    [ 'StaticWeb\AdminBar', 'admin_bar_menu_hook' ],
+                    100 );
+
         add_action( 'pre_post_update',
                     [ 'StaticWeb\Controller', 'pre_post_update' ] );
 
