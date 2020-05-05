@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Plugin Name:       StaticWeb
+ * Plugin Name:       StaticWeb.io
  * Plugin URI:        https://staticweb.io
- * Description:       StaticWeb Plugin
+ * Description:       StaticWeb.io Plugin
  * Version:           1.1.0-alpha
  * Author:            StaticWeb.io
  * Author URI:        https://staticweb.io
