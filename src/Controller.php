@@ -11,6 +11,12 @@ class Controller {
         add_action( 'pre_post_update',
                     [ 'StaticWeb\Controller', 'pre_post_update' ] );
 
+        add_action( 'wp_after_admin_bar_render',
+                    [ 'StaticWeb\AdminBar', 'after_admin_bar_render' ] );
+
+        add_action( 'wp_ajax_staticweb_job_queue',
+                    [ 'StaticWeb\AdminBar', 'ajax_staticweb_job_queue' ] );
+
         add_action( 'wp2static_deploy',
                     [ 'StaticWeb\Controller', 'deploy' ],
                     100, 1 );
