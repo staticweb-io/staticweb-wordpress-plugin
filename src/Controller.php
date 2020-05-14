@@ -70,7 +70,7 @@ class Controller {
     public static function deactivate( bool $network_wide = null ) : void {
     }
 
-    public function deploy( string $processed_site_path ) : void {
+    public static function deploy( string $processed_site_path ) : void {
         \WP2Static\WsLog::l( 'StaticWeb Addon deploying' );
 
         Deployer::deploy( $processed_site_path );
