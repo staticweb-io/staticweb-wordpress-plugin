@@ -30,39 +30,11 @@ class Deployer {
             return;
         }
 
-        $client_options = [
-            'profile' => \WP2StaticS3\Controller::getValue( 's3Profile' ),
-            'version' => 'latest',
-            'region' => \WP2StaticS3\Controller::getValue( 's3Region' ),
-        ];
-
-        /*
-           If no credentials option, SDK attempts to load credentials from
-           your environment in the following order:
-
-           - environment variables.
-           - a credentials .ini file.
-           - an IAM role.
-         */
-        if (
-            \WP2StaticS3\Controller::getValue( 's3AccessKeyID' ) &&
-            \WP2StaticS3\Controller::getValue( 's3SecretAccessKey' )
-        ) {
-            $client_options['credentials'] = [
-                'key' => \WP2StaticS3\Controller::getValue( 's3AccessKeyID' ),
-                'secret' => \WP2Static\CoreOptions::encrypt_decrypt(
-                    'decrypt',
-                    \WP2StaticS3\Controller::getValue( 's3SecretAccessKey' )
-                ),
-            ];
-            unset( $client_options['profile'] );
-        }
-
         $site_path = rtrim( \WP2Static\SiteInfo::getURL( 'site' ), '/' );
         $client = new HTTPClient();
 
         // instantiate S3 client
-        $s3 = new \Aws\S3\S3Client( $client_options );
+        $s3 = \WP2StaticS3\Deployer::s3_client();
         $bucket = \WP2StaticS3\Controller::getValue( 's3Bucket' );
 
         $table_name = $wpdb->prefix . 'staticweb_permalinks';
