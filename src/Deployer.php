@@ -34,7 +34,7 @@ class Deployer {
         $client = new HTTPClient();
 
         // instantiate S3 client
-        $s3 = \WP2StaticS3\Deployer::s3_client();
+        $s3 = \WP2StaticS3\Deployer::s3Client();
         $bucket = \WP2StaticS3\Controller::getValue( 's3Bucket' );
 
         $table_name = $wpdb->prefix . 'staticweb_permalinks';
