@@ -4,7 +4,7 @@
  * Plugin Name:       StaticWeb.io
  * Plugin URI:        https://staticweb.io
  * Description:       StaticWeb.io Plugin
- * Version:           2.0.0
+ * Version:           2.1.0-alpha
  * Author:            StaticWeb.io
  * Author URI:        https://staticweb.io
  */
@@ -14,7 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'STATICWEB_PATH', plugin_dir_path( __FILE__ ) );
-define( 'STATICWEB_VERSION', '2.0.0' );
+define( 'STATICWEB_VERSION', '2.1.0-alpha' );
 
 require STATICWEB_PATH . 'vendor/autoload.php';
 
