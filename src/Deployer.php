@@ -4,7 +4,7 @@ namespace StaticWeb;
 
 use WP2Static\WsLog;
 
-define("MD5_EMPTY_STRING", "d41d8cd98f00b204e9800998ecf8427e");
+define("STATICWEB_MD5_EMPTY_STRING", "d41d8cd98f00b204e9800998ecf8427e");
 
 class Deployer {
 
@@ -74,7 +74,7 @@ class Deployer {
                         $s3_key = $remote_path . ltrim($key, '/');
                         $s3_response = self::put_redirect( $s3, $bucket, $s3_key, $canonical_path );
                         if (200 === $s3_response->get('@metadata')['statusCode']) {
-                            self::add_to_deploy_cache( $key, MD5_EMPTY_STRING );
+                            self::add_to_deploy_cache( $key, STATICWEB_MD5_EMPTY_STRING );
                             self::update_deployed( $row->id, $row->updated );
                         } else {
                             WsLog::l('StaticWeb: AWS response status ' .
