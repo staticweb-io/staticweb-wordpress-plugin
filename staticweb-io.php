@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       StaticWeb.io
  * Description:       StaticWeb.io Plugin
- * Version:           2.3.0-SNAPSHOT
+ * Version:           2.3.0
  * Author:            StaticWeb.io
  * Author URI:        https://staticweb.io
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 define( 'STATICWEB_PATH', plugin_dir_path( __FILE__ ) );
-define( 'STATICWEB_VERSION', '2.3.0-SNAPSHOT' );
+define( 'STATICWEB_VERSION', '2.3.0' );
 
 require STATICWEB_PATH . 'vendor/autoload.php';
 
