@@ -1,7 +1,7 @@
 === StaticWeb.io ===
-Requires at least: 5.5
-Tested up to: 5.7
-Stable tag: 2.4.0
+Requires at least: 6.0
+Tested up to: 6.7
+Stable tag: 2.4.1
 License: MIT
 License URI: https://mit-license.org/
 
